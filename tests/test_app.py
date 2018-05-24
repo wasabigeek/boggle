@@ -10,6 +10,8 @@ def test_word_with_asterisk():
 
 
 def test_word_with_diagonal():
+    assert check_word("BEAK")
+    assert check_word("BOAR")
     assert check_word("BIRD")
 
 

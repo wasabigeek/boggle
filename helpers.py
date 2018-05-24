@@ -55,11 +55,16 @@ def has_next_letter(board, tile, remaining_word):
 
     adjacent_indexes = get_adjacent_indexes(tile[0])
 
+    # loop through adjacent tiles to find match for next letter
     for i in adjacent_indexes:
         adjacent = board[i]
         if adjacent[1] in remaining_word[0] or adjacent[1] == "*":
-            return has_next_letter(board, board[i], remaining_word[1:])
-
-    # TODO: Check word is valid in dictionary
+            can_form_remaining = has_next_letter(
+                board, board[i], remaining_word[1:]
+            )
+            # only break the loop if the whole word can be formed
+            # else may prematurely miss a word (e.g. BEAK in TestBoard.txt)
+            if can_form_remaining:
+                return True
 
     return False
