@@ -1,13 +1,17 @@
+from flask import Flask, render_template
+
+
 from helpers import get_board, has_next_letter, check_dictionary
 
 
+app = Flask(__name__)
+
+
+@app.route('/')
 def show_board():
     """Print out the board on the Command Line."""
     board = get_board()
-    for index, letter in board:
-        # new row on every fourth tile
-        end = "\n" if (index + 1) % 4 == 0 else " "
-        print(letter, end=end)
+    return render_template('app.html', board=board)
 
 
 def check_word(word):
