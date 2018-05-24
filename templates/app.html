@@ -7,7 +7,7 @@
             <tr>
         {% endif %}
 
-        <td>{{ tile.1 }}</td>
+        <td style="border: 1px grey solid; padding: 5px;">{{ tile.1 }}</td>
 
         {% if tile.0 % 4 == 3 %}
             </tr>
@@ -15,6 +15,7 @@
     {% endfor %}
 </table>
 
+<h1>Find A Word</h1>
 <form action="/" method="POST">
     <label>
         Check word:
@@ -23,9 +24,15 @@
     <button type="submit">Submit</button>
 </form>
 
-<h1>Score</h1>
-<p>
+{% if word and not is_valid %}
+    <p style="color: red;">Oops - {{word}} is invalid!</p>
+{% elif word and is_valid %}
+    <p style="color: green;">You found {{word}}!</p>
+{% endif %}
+
+<h1>Found Words</h1>
+<ul>
     {% for word in words %}
-        {{ word }}
+        <li>{{ word }}</li>
     {% endfor %}
-</p>
+</ul>

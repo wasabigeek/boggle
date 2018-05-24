@@ -12,6 +12,7 @@ app.secret_key = os.environ['SECRET_KEY']
 @app.route('/', methods=['GET', 'POST'])
 def board():
     """Render template for user to play, handle submitted words."""
+
     if 'board' in session:
         board = session['board']
     else:
@@ -21,8 +22,8 @@ def board():
     if 'words' in session:
         words = session['words']
     else:
-        session['words'] = []
         words = []
+        session['words'] = words
 
     if request.method == "POST":
         word = request.form['word']
@@ -31,9 +32,20 @@ def board():
             session['words'].append(word)
             session.modified = True
             words = session['words']
-        return render_template('app.html', board=board, words=words)
+        return render_template(
+            'app.html',
+            board=board,
+            words=words,
+            word=word,
+            is_valid=is_valid,
+        )
+
     else:
-        return render_template('app.html', board=board, words=words)
+        return render_template(
+            'app.html',
+            board=board,
+            words=words,
+        )
 
 
 def check_word(word):
