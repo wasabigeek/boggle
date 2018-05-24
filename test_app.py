@@ -9,5 +9,9 @@ def test_word_with_asterisk():
     assert check_word("BOSS")
 
 
+def test_word_with_diagonal():
+    assert check_word("BIRD")
+
+
 def test_check_invalid_word():
     assert not check_word("DATE")
