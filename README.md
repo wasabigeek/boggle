@@ -1,7 +1,10 @@
 WORK-IN-PROGRESS
 
-### HOW TO PLAY
-- In command line, go to folder and run `python app.py`. Note that Python 3.6 is required to run.
+### HOW TO PLAY LOCALLY
+- Copy `example.env` as `.env`
+- In command line, go to project root folder and run `pipenv run flask run`
+- Open the url in browser
+- Enjoy!
 
 ### DESIGN CONSIDERATIONS
 - Storing the Board
