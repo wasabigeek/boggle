@@ -13,16 +13,12 @@ def show_board():
         print(letter, end=end)
 
 
-show_board()
-
-
 def check_word(word):
     board = get_board()
     # find start of word
     possible_starts = list(filter(lambda x: x[1] in [word[0], "*"], board))
     for start in possible_starts:
         has_word = has_next_letter(board, start, word[1:])
-        print(has_word)
         if has_word:
             return True
 
@@ -63,4 +59,26 @@ def has_next_letter(board, tile, remaining_word):
     return False
 
 
-check_word("TAP")
+if __name__ == "__main__":
+    print("Current Board:")
+    show_board()
+    print()
+
+    playing = True
+    while True:
+        print("What would you like to do?")
+        print("[1] Display the board")
+        print("[2] Check a word")
+        print("[3] Exit")
+        action = int(input("--> "))
+
+        if action == 1:
+            show_board()
+        elif action == 2:
+            print("What word would you like to check?")
+            word = input("--> ")
+            print(check_word(word))
+        else:
+            playing = False
+
+        print()
