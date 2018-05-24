@@ -21,18 +21,31 @@ def check_word(word):
     # find start of word
     possible_starts = list(filter(lambda x: x[1] in [word[0], "*"], board))
     for start in possible_starts:
-        has_next_letter(board, start)
+        has_word = has_next_letter(board, start, word[1:])
+        print(has_word)
+        if has_word:
+            return True
+
+    return False
 
 
-def has_next_letter(board, tile):
+def has_next_letter(board, tile, remaining_word):
+    if len(remaining_word) == 0:
+        return True
+
     adjacent_indexes = [
         tile[0] - 4,  # top
         tile[0] + 4,  # bottom
         tile[0] - 1,  # left
         tile[0] + 1,  # right
     ]
-    adjacent_tiles = [board[i] for i in adjacent_indexes if i >= 0 and i < 16]
-    print(adjacent_tiles)
+    for i in adjacent_indexes:
+        adjacent = board[i] if (i >= 0 and i < 16) else None
+        print(f"checking {i} tile {adjacent} in {remaining_word}")
+        if adjacent and (adjacent[1] in remaining_word[0] or adjacent[1] == "*"):
+            return has_next_letter(board, board[i], remaining_word[1:])
+
+    return False
 
 
-check_word("TAPE")
+check_word("TAP")
