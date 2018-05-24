@@ -49,7 +49,7 @@ def check():
         board = get_board()
         session['board'] = board
 
-    word = request.form['word']
+    word = request.form['word'].upper()
     words = get_from_session_or_init(session, 'words', [])
 
     checked_word_obj = check_word(word, words, board)
