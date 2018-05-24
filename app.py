@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.secret_key = os.environ['SECRET_KEY']
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def board():
     """Render template for user to play, handle submitted words."""
 
@@ -40,6 +40,7 @@ def check():
     - (2) it can be found in the dictionary
     If both conditions are satisfied, return True.
     """
+
     if 'board' in session:
         board = session['board']
     else:
@@ -48,7 +49,12 @@ def check():
 
     word = request.form['word']
 
-    is_valid = check_word(word, board)
+    # check that word has not already been found
+    words = get_from_session_or_init(session, 'words', [])
+    if word in words:
+        is_valid = False  # TODO: proper error message
+    else:
+        is_valid = check_word(word, board)
 
     session['current_word'] = word
     session['is_valid'] = is_valid
