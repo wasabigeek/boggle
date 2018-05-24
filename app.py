@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 
 from helpers import get_board, has_next_letter, check_dictionary
@@ -7,11 +7,17 @@ from helpers import get_board, has_next_letter, check_dictionary
 app = Flask(__name__)
 
 
-@app.route('/')
-def show_board():
-    """Print out the board on the Command Line."""
+@app.route('/', methods=['GET', 'POST'])
+def board():
+    """Render template for user to play, handle submitted words."""
     board = get_board()
-    return render_template('app.html', board=board)
+
+    if request.method == "POST":
+        word = request.form['word']
+        is_valid = check_word(word)
+        return render_template('app.html', board=board, word=word, is_valid=is_valid)
+    else:
+        return render_template('app.html', board=board)
 
 
 def check_word(word):

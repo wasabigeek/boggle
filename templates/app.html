@@ -16,10 +16,16 @@
 </table>
 
 <h1>Play</h1>
-<form action="/" method="POST"></form>
+<form action="/" method="POST">
     <label>
         Check word:
-        <input name="word" />
+        <input type="text" name="word" />
     </label>
     <button type="submit">Submit</button>
 </form>
+
+<p>
+    {% if word %}
+        {{ word }} is {% if is_valid %}valid{% else %}invalid{% endif %}.
+    {% endif %}
+</p>
