@@ -1,4 +1,4 @@
-from helpers import get_board, has_next_letter
+from helpers import get_board, has_next_letter, check_dictionary
 
 
 def show_board():
@@ -11,12 +11,13 @@ def show_board():
 
 def check_word(word):
     board = get_board()
-    # find start of word
+    # check if word can be formed on the board
     possible_starts = list(filter(lambda x: x[1] in [word[0], "*"], board))
     for start in possible_starts:
         has_word = has_next_letter(board, start, word[1:])
         if has_word:
-            return True
+            # check if word is in dictionary
+            return check_dictionary(word)
 
     return False
 
@@ -27,7 +28,7 @@ if __name__ == "__main__":
     print()
 
     playing = True
-    while True:
+    while playing:
         print("What would you like to do?")
         print("[1] Display the board")
         print("[2] Check a word")

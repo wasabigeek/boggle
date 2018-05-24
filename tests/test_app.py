@@ -13,5 +13,9 @@ def test_word_with_diagonal():
     assert check_word("BIRD")
 
 
-def test_check_invalid_word():
+def test_letters_not_adjacent():
     assert not check_word("DATE")
+
+
+def test_invalid_word():
+    assert not check_word("ALUGE")

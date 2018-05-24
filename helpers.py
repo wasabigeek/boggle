@@ -1,3 +1,12 @@
+def check_dictionary(word, dictionary_path="dictionary.txt"):
+    with open(dictionary_path, "r") as f:
+        dictionary = f.read().split('\n')
+        if word.lower() in dictionary:
+            return True
+        else:
+            return False
+
+
 def get_adjacent_indexes(index):
     """Given a tile's index (0 - 15), return a list of adjacent tile indexes"""
     row = int(index / 4)
