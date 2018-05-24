@@ -30,9 +30,15 @@
     <p style="color: green;">You found {{current_word}}!</p>
 {% endif %}
 
-<h1>Found Words</h1>
-<ul>
-    {% for word in words %}
-        <li>{{ word }}</li>
-    {% endfor %}
-</ul>
+{% if words %}
+    <h1>Found Words</h1>
+    <ul>
+        {% for word in words %}
+            <li>{{ word }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/clear">
+        <button>Reset</button>
+    </a>
+{% endif %}

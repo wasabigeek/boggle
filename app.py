@@ -22,7 +22,7 @@ def board():
     words = get_from_session_or_init(session, 'words', [])
     current_word = get_from_session_or_init(session, 'current_word', '')
     is_valid = get_from_session_or_init(session, 'is_valid', False)
-    message = get_from_session_or_init(session, 'message', False)
+    message = get_from_session_or_init(session, 'message', '')
 
     return render_template(
         'app.html',
@@ -60,5 +60,18 @@ def check():
     if checked_word_obj['is_valid']:
         session['words'].append(word)
         session.modified = True
+
+    return redirect(url_for('board'))
+
+
+@app.route('/clear', methods=['GET'])
+def clear():
+    """
+    Resets the session e.g. found words
+    """
+
+    session['current_word'] = ''
+    session['words'] = []
+    session.modified = True
 
     return redirect(url_for('board'))
