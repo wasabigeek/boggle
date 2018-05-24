@@ -1,23 +1,37 @@
-from flask import Flask, render_template, request
+import os
 
+from flask import Flask, session, render_template, request
 
 from helpers import get_board, has_next_letter, check_dictionary
 
 
 app = Flask(__name__)
+app.secret_key = os.environ['SECRET_KEY']
 
 
 @app.route('/', methods=['GET', 'POST'])
 def board():
     """Render template for user to play, handle submitted words."""
-    board = get_board()
+    if 'board' in session:
+        board = session['board']
+    else:
+        board = get_board()
+        session['board'] = board
+
+    if 'words' in session:
+        words = session['words']
+    else:
+        session['words'] = []
 
     if request.method == "POST":
         word = request.form['word']
         is_valid = check_word(word)
-        return render_template('app.html', board=board, word=word, is_valid=is_valid)
+        if is_valid:
+            session['words'].append(word)
+            words = session['words']
+        return render_template('app.html', board=board, words=words)
     else:
-        return render_template('app.html', board=board)
+        return render_template('app.html', board=board, words=words)
 
 
 def check_word(word):

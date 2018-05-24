@@ -25,7 +25,7 @@
 </form>
 
 <p>
-    {% if word %}
-        {{ word }} is {% if is_valid %}valid{% else %}invalid{% endif %}.
-    {% endif %}
+    {% for word in words %}
+        {{ word }}
+    {% endfor %}
 </p>
