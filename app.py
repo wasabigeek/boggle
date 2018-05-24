@@ -22,12 +22,14 @@ def board():
         words = session['words']
     else:
         session['words'] = []
+        words = []
 
     if request.method == "POST":
         word = request.form['word']
         is_valid = check_word(word)
         if is_valid:
             session['words'].append(word)
+            session.modified = True
             words = session['words']
         return render_template('app.html', board=board, words=words)
     else:
