@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, session, render_template, request, redirect, url_for
 
-from helpers import get_board, check_word
+from helpers import get_board, check_word, get_from_session_or_init
 
 
 app = Flask(__name__)
@@ -19,23 +19,9 @@ def board():
         board = get_board()
         session['board'] = board
 
-    if 'words' in session:
-        words = session['words']
-    else:
-        words = []
-        session['words'] = words
-
-    if 'current_word' in session:
-        current_word = session['current_word']
-    else:
-        current_word = ""
-        session['current_word'] = current_word
-
-    if 'is_valid' in session:
-        is_valid = session['is_valid']
-    else:
-        is_valid = False
-        session['is_valid'] = is_valid
+    words = get_from_session_or_init(session, 'words', [])
+    current_word = get_from_session_or_init(session, 'current_word', '')
+    is_valid = get_from_session_or_init(session, 'is_valid', False)
 
     return render_template(
         'app.html',

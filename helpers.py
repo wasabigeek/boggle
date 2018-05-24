@@ -57,6 +57,15 @@ def get_board(path='TestBoard.txt'):
         return list(enumerate(board))
 
 
+def get_from_session_or_init(session, param, default):
+    if param in session:
+        return session[param]
+    else:
+        value = default
+        session[param] = value
+        return value
+
+
 def has_next_letter(board, tile, remaining_word):
     """
     Given a tile and the remaining letters of the word,
