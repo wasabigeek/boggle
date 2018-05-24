@@ -1,8 +1,8 @@
 import os
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect, url_for
 
-from helpers import get_board, has_next_letter, check_dictionary
+from helpers import get_board, check_word
 
 
 app = Flask(__name__)
@@ -25,68 +25,49 @@ def board():
         words = []
         session['words'] = words
 
-    if request.method == "POST":
-        word = request.form['word']
-        is_valid = check_word(word)
-        if is_valid:
-            session['words'].append(word)
-            session.modified = True
-            words = session['words']
-        return render_template(
-            'app.html',
-            board=board,
-            words=words,
-            word=word,
-            is_valid=is_valid,
-        )
-
+    if 'current_word' in session:
+        current_word = session['current_word']
     else:
-        return render_template(
-            'app.html',
-            board=board,
-            words=words,
-        )
+        current_word = ""
+        session['current_word'] = current_word
+
+    if 'is_valid' in session:
+        is_valid = session['is_valid']
+    else:
+        is_valid = False
+        session['is_valid'] = is_valid
+
+    return render_template(
+        'app.html',
+        board=board,
+        words=words,
+        current_word=current_word,
+        is_valid=is_valid,
+    )
 
 
-def check_word(word):
+@app.route('/check', methods=['POST'])
+def check():
     """
     Given a word, check if:
     - (1) it can be formed on the board,
     - (2) it can be found in the dictionary
     If both conditions are satisfied, return True.
     """
-    board = get_board()
-    # First, check if word can be formed on the board
-    possible_starts = list(filter(lambda x: x[1] in [word[0], "*"], board))
-    for start in possible_starts:
-        has_word = has_next_letter(board, start, word[1:])
-        # If word is on the board, check if it is in dictionary
-        if has_word:
-            return check_dictionary(word)
+    if 'board' in session:
+        board = session['board']
+    else:
+        board = get_board()
+        session['board'] = board
 
-    return False
+    word = request.form['word']
 
+    is_valid = check_word(word, board)
 
-if __name__ == "__main__":
-    print("Current Board:")
-    show_board()
-    print()
+    session['current_word'] = word
+    session['is_valid'] = is_valid
+    if is_valid:
+        session['words'].append(word)
+        session.modified = True
 
-    playing = True
-    while playing:
-        print("What would you like to do?")
-        print("[1] Display the board")
-        print("[2] Check a word")
-        print("[3] Exit")
-        action = int(input("--> "))
-
-        if action == 1:
-            show_board()
-        elif action == 2:
-            print("What word would you like to check?")
-            word = input("--> ")
-            print(f"You found {word}!" if check_word(word) else "Oops! Not a valid word.")
-        else:
-            playing = False
-
-        print()
+    return redirect(url_for('board'))

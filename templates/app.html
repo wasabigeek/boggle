@@ -16,7 +16,7 @@
 </table>
 
 <h1>Find A Word</h1>
-<form action="/" method="POST">
+<form action="/check" method="POST">
     <label>
         Check word:
         <input type="text" name="word" />
@@ -24,10 +24,10 @@
     <button type="submit">Submit</button>
 </form>
 
-{% if word and not is_valid %}
-    <p style="color: red;">Oops - {{word}} is invalid!</p>
-{% elif word and is_valid %}
-    <p style="color: green;">You found {{word}}!</p>
+{% if current_word and not is_valid %}
+    <p style="color: red;">Oops - {{current_word}} is invalid!</p>
+{% elif current_word and is_valid %}
+    <p style="color: green;">You found {{current_word}}!</p>
 {% endif %}
 
 <h1>Found Words</h1>

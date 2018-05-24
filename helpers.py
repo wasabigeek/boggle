@@ -7,6 +7,19 @@ def check_dictionary(word, dictionary_path="dictionary.txt"):
             return False
 
 
+def check_word(word, board):
+    # First, check if word can be formed on the board
+    has_word = False
+    possible_starts = list(filter(lambda x: x[1] in [word[0], "*"], board))
+    for start in possible_starts:
+        has_word = has_next_letter(board, start, word[1:])
+        if has_word:
+            # If word is on the board, check if it is in dictionary
+            return check_dictionary(word)
+
+    return False
+
+
 def get_adjacent_indexes(index):
     """Given a tile's index (0 - 15), return a list of adjacent tile indexes"""
     row = int(index / 4)
