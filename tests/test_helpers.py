@@ -1,7 +1,7 @@
 from helpers import get_board, check_word_is_formable
 
 
-board = get_board()
+board = get_board('TestBoard.txt')
 
 
 def test_check_horizontal_word():

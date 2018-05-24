@@ -1,3 +1,6 @@
+from random import randint
+
+
 def check_dictionary(word, dictionary_path="dictionary.txt"):
     """
     Check if word can be found in dictionary.
@@ -16,6 +19,7 @@ def check_word_is_formable(word, board):
     Check if word can be formed from a tile on the board.
     Returns Boolean.
     """
+    # TODO: handle 'QU'
     possible_starts = list(filter(lambda x: x[1] in [word[0], "*"], board))
     for start in possible_starts:
         has_word = check_word_is_formable_from_tile(board, start, word[1:])
@@ -76,15 +80,45 @@ def get_adjacent_indexes(index):
     return adjacent_indexes
 
 
-def get_board(path='TestBoard.txt'):
+def get_board(path=None):
     """
-    Given a txt representation of a board,
-    convert to a list of tuples (index, letter)
+    If path given, convert text file to list of tuples (index, letter).
+    Otherwise, generate a new board.
     """
-    with open(path, 'r') as f:
+    if path:
+        f = open(path, 'r')
         # convert board to a list of tiles
         board = f.read().split(', ')
+        f.close()
         return list(enumerate(board))
+
+    else:
+        # generate board from possible dice config
+        # https://boardgames.stackexchange.com/q/29264
+        dice = [
+            ['R', 'I', 'F', 'O', 'B', 'X', '*'],
+            ['I', 'F', 'E', 'H', 'E', 'Y', '*'],
+            ['D', 'E', 'N', 'O', 'W', 'S', '*'],
+            ['U', 'T', 'O', 'K', 'N', 'D', '*'],
+            ['H', 'M', 'S', 'R', 'A', 'O', '*'],
+            ['L', 'U', 'P', 'E', 'T', 'S', '*'],
+            ['A', 'C', 'I', 'T', 'O', 'A', '*'],
+            ['Y', 'L', 'G', 'K', 'U', 'E', '*'],
+            ['QU', 'B', 'M', 'J', 'O', 'A', '*'],
+            ['E', 'H', 'I', 'S', 'P', 'N', '*'],
+            ['V', 'E', 'T', 'I', 'G', 'N', '*'],
+            ['B', 'A', 'L', 'I', 'Y', 'T', '*'],
+            ['E', 'Z', 'A', 'V', 'N', 'D', '*'],
+            ['R', 'A', 'L', 'E', 'S', 'C', '*'],
+            ['U', 'W', 'I', 'L', 'R', 'G', '*'],
+            ['P', 'A', 'C', 'E', 'M', 'D', '*'],
+        ]
+
+        board = []
+        for index, die in enumerate(dice):
+            board.append((index, die[randint(0, 6)]))
+
+        return board
 
 
 def get_from_session_or_init(session, param, default):
