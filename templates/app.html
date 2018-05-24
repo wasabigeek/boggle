@@ -1,5 +1,11 @@
 <!doctype html>
 <title>Hello from Flask</title>
+<p>
+    <a href="/clear">
+        <button>Start New Game</button>
+    </a>
+</p>
+
 <h1>Board</h1>
 <table>
     {% for tile in board %}
@@ -37,8 +43,4 @@
             <li>{{ word }}</li>
         {% endfor %}
     </ul>
-
-    <a href="/clear">
-        <button>Reset</button>
-    </a>
 {% endif %}

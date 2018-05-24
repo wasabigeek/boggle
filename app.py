@@ -70,8 +70,9 @@ def clear():
     Resets the session e.g. found words
     """
 
-    session['current_word'] = ''
-    session['words'] = []
+    session.pop('board', None)
+    session.pop('current_word', None)
+    session.pop('words', None)
     session.modified = True
 
     return redirect(url_for('board'))
