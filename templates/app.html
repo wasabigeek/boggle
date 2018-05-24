@@ -25,7 +25,7 @@
 </form>
 
 {% if current_word and not is_valid %}
-    <p style="color: red;">Oops - {{current_word}} is invalid!</p>
+    <p style="color: red;">Oops - {{current_word}} is invalid! {{message}}</p>
 {% elif current_word and is_valid %}
     <p style="color: green;">You found {{current_word}}!</p>
 {% endif %}

@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, session, render_template, request, redirect, url_for
 
-from helpers import get_board, check_word, get_from_session_or_init
+from helpers import check_word, get_board, get_from_session_or_init
 
 
 app = Flask(__name__)
@@ -22,6 +22,7 @@ def board():
     words = get_from_session_or_init(session, 'words', [])
     current_word = get_from_session_or_init(session, 'current_word', '')
     is_valid = get_from_session_or_init(session, 'is_valid', False)
+    message = get_from_session_or_init(session, 'message', False)
 
     return render_template(
         'app.html',
@@ -29,6 +30,7 @@ def board():
         words=words,
         current_word=current_word,
         is_valid=is_valid,
+        message=message,
     )
 
 
@@ -48,17 +50,14 @@ def check():
         session['board'] = board
 
     word = request.form['word']
-
-    # check that word has not already been found
     words = get_from_session_or_init(session, 'words', [])
-    if word in words:
-        is_valid = False  # TODO: proper error message
-    else:
-        is_valid = check_word(word, board)
+
+    checked_word_obj = check_word(word, words, board)
 
     session['current_word'] = word
-    session['is_valid'] = is_valid
-    if is_valid:
+    session['is_valid'] = checked_word_obj['is_valid']
+    session['message'] = checked_word_obj['message']
+    if checked_word_obj['is_valid']:
         session['words'].append(word)
         session.modified = True
 
