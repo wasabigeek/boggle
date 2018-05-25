@@ -76,3 +76,8 @@ def clear():
     session.modified = True
 
     return redirect(url_for('board'))
+
+
+@app.route('/instructions', methods=['GET'])
+def instructions():
+    return render_template('instructions.html')
