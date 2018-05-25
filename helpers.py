@@ -19,10 +19,13 @@ def check_word_is_formable(word, board):
     Check if word can be formed from a tile on the board.
     Returns Boolean.
     """
-    # TODO: handle 'QU'
-    possible_starts = list(filter(lambda x: x[1] in [word[0], "*"], board))
+    # handle QU
+    start_tile = 'QU' if word[0] == 'Q' else word[0]
+    remaining = word[2:] if word[0] == 'Q' else word[1:]
+
+    possible_starts = list(filter(lambda x: x[1] in [start_tile, "*"], board))
     for start in possible_starts:
-        has_word = check_word_is_formable_from_tile(board, start, word[1:])
+        has_word = check_word_is_formable_from_tile(board, start, remaining)
         if has_word:
             return True
 
@@ -144,9 +147,14 @@ def check_word_is_formable_from_tile(board, tile, remaining_word):
     # loop through adjacent tiles to find match for next letter
     for i in adjacent_indexes:
         adjacent = board[i]
-        if adjacent[1] in remaining_word[0] or adjacent[1] == "*":
+        # handle QU
+        is_QU = remaining_word[0] == 'Q'
+        next_tile_needed = 'QU' if is_QU else remaining_word[0]
+        next_remaining = remaining_word[2:] if is_QU else remaining_word[1:]
+
+        if adjacent[1] == next_tile_needed or adjacent[1] == "*":
             can_form_remaining = check_word_is_formable_from_tile(
-                board, board[i], remaining_word[1:]
+                board, board[i], next_remaining
             )
             # only break the loop if the whole word can be formed
             # else may prematurely miss a word (e.g. BEAK in TestBoard.txt)

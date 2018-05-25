@@ -28,4 +28,5 @@ def test_invalid_word():
 
 def test_qu_letters():
     _board = get_board('tests/TestBoardQu.txt')
-    assert check_word_is_formable("QUICK", _board)
+    assert check_word_is_formable("QUATE", _board)
+    assert check_word_is_formable("EQUATE", _board)
