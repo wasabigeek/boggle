@@ -1,7 +1,7 @@
 from helpers import get_board, check_word_is_formable
 
 
-board = get_board('TestBoard.txt')
+board = get_board('tests/TestBoard.txt')
 
 
 def test_check_horizontal_word():
@@ -24,3 +24,8 @@ def test_letters_not_adjacent():
 
 def test_invalid_word():
     assert not check_word_is_formable("ALUGE", board)
+
+
+def test_qu_letters():
+    _board = get_board('tests/TestBoardQu.txt')
+    assert check_word_is_formable("QUICK", _board)
