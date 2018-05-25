@@ -1,46 +1,92 @@
-<!doctype html>
-<title>Hello from Flask</title>
-<p>
-    <a href="/clear">
-        <button>Start New Game</button>
-    </a>
-</p>
+<!DOCTYPE html>
+<html>
 
-<h1>Board</h1>
-<table>
-    {% for tile in board %}
-        {% if tile.0 % 4 == 0 %}
-            <tr>
-        {% endif %}
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-        <td style="border: 1px grey solid; padding: 5px;">{{ tile.1 }}</td>
+    <!-- Site Properties -->
+    <title>Boggle</title>
 
-        {% if tile.0 % 4 == 3 %}
-            </tr>
-        {% endif %}
-    {% endfor %}
-</table>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css" rel="stylesheet">
 
-<h1>Find A Word</h1>
-<form action="/check" method="POST">
-    <label>
-        Check word:
-        <input type="text" name="word" />
-    </label>
-    <button type="submit">Submit</button>
-</form>
+</head>
 
-{% if current_word and not is_valid %}
-    <p style="color: red;">Oops - {{current_word}} is invalid! {{message}}</p>
-{% elif current_word and is_valid %}
-    <p style="color: green;">You found {{current_word}}!</p>
-{% endif %}
+<body>
 
-{% if words %}
-    <h1>Found Words</h1>
-    <ul>
-        {% for word in words %}
-            <li>{{ word }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+    <div class="ui fixed blue inverted menu">
+        <div class="ui container">
+            <a class="header active item" href="/">
+                <i class="gamepad icon" style="margin-right: 0.8em;"></i>
+                BOGGLE!
+            </a>
+            <a class="item" href="/clear">
+                <i class="sync alternate icon"></i>
+                New Game
+            </a>
+            <div class="right menu">
+                <a href="https://github.com/wasabigeek/boggle" class="item">
+                    <i class="github icon"></i>
+                    Github
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui main relaxed container stackable grid" style="margin-top: 1em;">
+
+        <div class="six wide column">
+            <h1 class="ui header">Board</h1>
+            <table class="ui celled unstackable table">
+                {% for tile in board %} {% if tile.0 % 4 == 0 %}
+                <tr>
+                    {% endif %}
+
+                    <td style="text-align: center; font-weight: 700;">{{ tile.1 }}</td>
+
+                    {% if tile.0 % 4 == 3 %}
+                </tr>
+                {% endif %} {% endfor %}
+            </table>
+        </div>
+        <div class="ten wide column">
+            <h1 class="ui header">Find A Word</h1>
+            <div class="ui segment">
+                <form action="/check" method="POST">
+                    <div class="ui action input fluid">
+                        <input id="wordInput" type="text" placeholder="Enter a word..." name="word" >
+                        <button class="ui button" type="submit">
+                            <i class="search icon"></i>
+                            Search
+                        </button>
+                    </div>
+                    {% if current_word %}
+                        <div class="ui pointing {% if current_word and not is_valid %}red{% elif current_word and is_valid %}teal{% endif %} basic label">
+                            {% if current_word and not is_valid %}
+                                Oops - {{current_word}} is invalid! {{message}}
+                            {% elif current_word and is_valid %}
+                                You found {{current_word}}!
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </form>
+                {% if words %}
+                <div class="ui divider"></div>
+                <div class="ui medium header">Found Words</div>
+                <ul class="ui list">
+                    {% for word in words %}
+                    <li>{{ word }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
+</body>
+
+</html>
