@@ -1,4 +1,4 @@
-[[https://github.com/wasabigeek/boggle/blob/master/soxa/boggle.gif|alt=boggle]]
+![Boggle Screenshot](docs/boggle.gif?raw=true "Boggle Screenshot")
 
 ### HOW TO PLAY LOCALLY
 - Copy `example.env` as `.env`
