@@ -41,6 +41,8 @@
                 {% if words %}
                 <div class="ui divider"></div>
                 <div class="ui medium header">Found Words</div>
+                <strong>Total Score:</strong>
+                <div class="ui circular large label green"> {{score}}</div>
                 <ul class="ui list">
                     {% for word in words %}
                     <li>{{ word }}</li>

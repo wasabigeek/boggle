@@ -1,4 +1,5 @@
 import os
+from functools import reduce
 
 from flask import Flask, session, render_template, request, redirect, url_for
 
@@ -20,17 +21,16 @@ def board():
         session['board'] = board
 
     words = get_from_session_or_init(session, 'words', [])
-    current_word = get_from_session_or_init(session, 'current_word', '')
-    is_valid = get_from_session_or_init(session, 'is_valid', False)
-    message = get_from_session_or_init(session, 'message', '')
+    score = reduce(lambda x, y: x + len(y), words, 0)
 
     return render_template(
         'app.html',
         board=board,
         words=words,
-        current_word=current_word,
-        is_valid=is_valid,
-        message=message,
+        current_word=get_from_session_or_init(session, 'current_word', ''),
+        is_valid=get_from_session_or_init(session, 'is_valid', False),
+        message=get_from_session_or_init(session, 'message', ''),
+        score=score,
     )
 
 
