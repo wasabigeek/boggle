@@ -20,7 +20,7 @@
         <div class="ten wide column">
             <h1 class="ui header">Find A Word</h1>
             <div class="ui segment">
-                <form action="/check" method="POST">
+                <form action="/check" method="POST" id="wordForm">
                     <div class="ui action input fluid">
                         <input id="wordInput" type="text" placeholder="Enter a word..." name="word" >
                         <button class="ui button" type="submit">
@@ -53,4 +53,35 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/countdown/2.6.0/countdown.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+<script type="text/javascript">
+    // https://raw.githubusercontent.com/icambron/moment-countdown/master/dist/moment-countdown.min.js
+    (function(){var countdown,moment,ref,ref1,slice=[].slice;countdown=(ref=typeof require==="function"?require("countdown"):void 0)!=null?ref:this.countdown;moment=(ref1=typeof require==="function"?require("moment"):void 0)!=null?ref1:this.moment;moment.fn.countdown=function(){var args,other;other=arguments[0],args=2<=arguments.length?slice.call(arguments,1):[];return countdown.apply(null,[this.toDate(),moment(other).toDate()].concat(slice.call(args)))}}).call(this);
+</script>
+<script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous">
+</script>
+<script>
+    // get the end time
+    var end = moment().add(3, 'minutes').format();
+
+    // send the end time to backend
+    $('#wordForm').submit(function(e) {
+        $('<input />').attr('type', 'hidden')
+          .attr('name', "end")
+          .attr('value', end)
+          .appendTo('#wordForm');
+
+        return true;
+    });
+    // setInterval(function() {
+    //    console.log(moment().countdown(now).toString())
+    // }, 1000);
+</script>
 {% endblock %}
