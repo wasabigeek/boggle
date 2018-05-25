@@ -72,21 +72,9 @@
     crossorigin="anonymous">
 </script>
 <script>
-    // get the end time
-    var end = moment().add(3, 'minutes').format();
-
-    // send the end time to backend
-    $('#wordForm').submit(function(e) {
-        $('<input />').attr('type', 'hidden')
-          .attr('name', "end")
-          .attr('value', end)
-          .appendTo('#wordForm');
-
-        return true;
-    });
-
-    // countdown to end
     var currentEnd = "{{end}}";
+
+    // if endtime already recorded, countdown to end
     if (currentEnd) {
         var timer = setInterval(function() {
             var timespan = moment().countdown("{{end}}");
@@ -102,7 +90,20 @@
 
         }, 1000);
     }
+    // else generate the endtime and send to backend
     else {
+        $('#wordForm').submit(function(e) {
+            // get the end time
+            var end = moment().add(3, 'minutes').format();
+
+            $('<input />').attr('type', 'hidden')
+            .attr('name', "end")
+            .attr('value', end)
+            .appendTo('#wordForm');
+
+            return true;
+        });
+
         $('#timeLeft').html('Enter a word to start');
     }
 </script>
