@@ -18,7 +18,7 @@
             </table>
             <span class="ui huge label">
                 <i class="stopwatch icon"></i>
-                <span id="timeLeft">Enter a word to start</span>
+                <span id="timeLeft"></span>
             </span>
         </div>
         <div class="ten wide column">
@@ -26,7 +26,7 @@
             <div class="ui segment">
                 <form action="/check" method="POST" id="wordForm">
                     <div class="ui action input fluid">
-                        <input id="wordInput" type="text" placeholder="Enter a word..." name="word" >
+                        <input id="wordInput" type="text" placeholder="Enter a word..." name="word" required="required" />
                         <button class="ui button" type="submit">
                             <i class="search icon"></i>
                             Search
@@ -101,6 +101,9 @@
             $('#timeLeft').html(timeString);
 
         }, 1000);
+    }
+    else {
+        $('#timeLeft').html('Enter a word to start');
     }
 </script>
 {% endblock %}
