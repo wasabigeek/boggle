@@ -31,6 +31,7 @@ def board():
         is_valid=get_from_session_or_init(session, 'is_valid', False),
         message=get_from_session_or_init(session, 'message', ''),
         score=score,
+        end=get_from_session_or_init(session, 'end', ''),
     )
 
 
@@ -49,6 +50,7 @@ def check():
         board = get_board()
         session['board'] = board
 
+    # check that word is valid
     word = request.form['word'].upper()
     words = get_from_session_or_init(session, 'words', [])
 
@@ -59,7 +61,13 @@ def check():
     session['message'] = checked_word_obj['message']
     if checked_word_obj['is_valid']:
         session['words'].append(word)
-        session.modified = True
+
+    # set the end time if first post of game
+    end = get_from_session_or_init(session, 'end', '')
+    if not end:
+        session['end'] = request.form['end']
+
+    session.modified = True
 
     return redirect(url_for('board'))
 
@@ -73,6 +81,7 @@ def clear():
     session.pop('board', None)
     session.pop('current_word', None)
     session.pop('words', None)
+    session.pop('end', None)
     session.modified = True
 
     return redirect(url_for('board'))

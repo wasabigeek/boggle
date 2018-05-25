@@ -16,6 +16,10 @@
                 </tr>
                 {% endif %} {% endfor %}
             </table>
+            <span class="ui huge label">
+                <i class="stopwatch icon"></i>
+                <span id="timeLeft">Enter a word to start</span>
+            </span>
         </div>
         <div class="ten wide column">
             <h1 class="ui header">Find A Word</h1>
@@ -80,8 +84,23 @@
 
         return true;
     });
-    // setInterval(function() {
-    //    console.log(moment().countdown(now).toString())
-    // }, 1000);
+
+    // countdown to end
+    var currentEnd = "{{end}}";
+    if (currentEnd) {
+        var timer = setInterval(function() {
+            var timespan = moment().countdown("{{end}}");
+            var timeString = '0 seconds';
+            if (timespan.value > 0) {
+                timeString = timespan.toString();
+            }
+            else {
+                clearInterval(timer);
+            }
+
+            $('#timeLeft').html(timeString);
+
+        }, 1000);
+    }
 </script>
 {% endblock %}
