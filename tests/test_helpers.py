@@ -24,6 +24,8 @@ def test_letters_not_adjacent():
 
 def test_invalid_word():
     assert not check_word_is_formable("ALUGE", board)
+    # should not work as it requires reverse traversal
+    assert not check_word_is_formable("BOSSDOM", board)
 
 
 def test_qu_letters():
